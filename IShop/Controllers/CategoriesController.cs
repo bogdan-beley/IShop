@@ -12,6 +12,7 @@ namespace IShop.Controllers
     public class CategoriesController : ApiController
     {
         private ICategoryService _categoryService = new CategoryService();
+        private IProductService _productService = new ProductService();
 
         [HttpGet]
         public IHttpActionResult GetAll()
@@ -53,6 +54,14 @@ namespace IShop.Controllers
         public IHttpActionResult SortByName()
         {
             return Ok(_categoryService.SortByName());
+        }
+
+        [HttpGet]
+        public IHttpActionResult GetAllProductsByCategory(int id)
+        {
+            var products = _productService.GetAll().Where(x => x.CategoryId == id);
+
+            return Ok(products);
         }
     }
 }
