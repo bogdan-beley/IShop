@@ -212,7 +212,6 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -396,6 +395,16 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\IShop.BusinessLogic\IShop.BusinessLogic.csproj">
+      <Project>{b75f8a2a-c086-4497-a589-12b3723028b3}</Project>
+      <Name>IShop.BusinessLogic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IShop.Domain\IShop.Domain.csproj">
+      <Project>{f2da102c-96f6-409a-b327-b67ed188bad8}</Project>
+      <Name>IShop.Domain</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
