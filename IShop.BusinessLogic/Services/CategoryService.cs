@@ -17,6 +17,8 @@ namespace IShop.BusinessLogic.Services
         List<Category> GetAll();
 
         Category Get(int id);
+
+        List<Category> SortByName();
     }
 
     public class CategoryService : ServiceBase, ICategoryService
@@ -69,6 +71,12 @@ namespace IShop.BusinessLogic.Services
         public List<Category> GetAll()
         {
             return _categories;
+        }
+
+        public List<Category> SortByName()
+        {
+            return _categories
+                        .OrderBy(x => x.Name).ToList();
         }
 
         public void Update(Category category)

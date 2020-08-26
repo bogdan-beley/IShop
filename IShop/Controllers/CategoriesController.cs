@@ -48,5 +48,11 @@ namespace IShop.Controllers
 
             return Ok();
         }
+
+        [HttpGet]
+        public IHttpActionResult SortByName()
+        {
+            return Ok(_categoryService.SortByName());
+        }
     }
 }
