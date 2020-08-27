@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Routing.Constraints;
 using Microsoft.Owin.Security.OAuth;
 using Newtonsoft.Json.Serialization;
 
@@ -29,6 +30,16 @@ namespace IShop
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{action}/{id}",
                 defaults: new { id = RouteParameter.Optional }
+            );
+
+            config.Routes.MapHttpRoute(
+                name: "SearchRoute",
+                routeTemplate: "api/{controller}/{action}",
+                defaults: new {  },
+                constraints: new
+                {
+                    action = new AlphaRouteConstraint()
+                }
             );
         }
     }

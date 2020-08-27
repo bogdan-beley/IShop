@@ -9,6 +9,7 @@ using System.Web.Http;
 
 namespace IShop.Controllers
 {
+    [RoutePrefix("api/categories")]
     public class CategoriesController : ApiController
     {
         private ICategoryService _categoryService = new CategoryService();
@@ -86,6 +87,7 @@ namespace IShop.Controllers
             return Ok(_categoryService.SortByName());
         }
 
+        [Route("{id}/products")]
         [HttpGet]
         public IHttpActionResult GetAllProductsByCategory(int id)
         {
@@ -97,6 +99,37 @@ namespace IShop.Controllers
             var products = _productService.GetAll().Where(x => x.CategoryId == id);
 
             return Ok(products);
+        }
+
+        [HttpGet]
+        [Route("search/{name}")]
+        public IHttpActionResult Search(string name)
+        {
+            var categories = _categoryService.GetAll();
+            categories = categories.Where(x => x.Name.ToLower().Contains(name.ToLower())).ToList();
+
+            if (categories.Count != 0)
+                return Ok(categories);
+            else
+                return Ok("We're sorry. The Search has not given any result.");
+        }
+
+        [Route("count")]
+        [HttpGet]
+
+        public IHttpActionResult CountOfProducts()
+        {
+            var categories = _categoryService.GetAll();
+
+            List<string> countOfProducts = new List<string>();
+
+            foreach (var category in categories)
+            {
+                var products = _productService.GetAll().Where(x => x.CategoryId == category.Id);
+                countOfProducts.Add($"{category.Name} - {products.Count()}");
+            }
+
+            return Ok(countOfProducts);
         }
     }
 }
