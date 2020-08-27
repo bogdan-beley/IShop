@@ -23,12 +23,27 @@ namespace IShop.Controllers
         [HttpGet]
         public IHttpActionResult Get(int id)
         {
-            return Ok(_categoryService.Get(id));
+            var category = _categoryService.Get(id);
+
+            if (category != null)
+            {
+                return Ok(category);
+            }
+            else
+            {
+                return NotFound();
+            }
         }
 
         [HttpPost]
         public IHttpActionResult Add([FromBody] Category category)
         {
+            if (category == null)
+                return BadRequest("Category can't be null!");
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+            
             _categoryService.Add(category);
             
             return Ok();
@@ -37,6 +52,12 @@ namespace IShop.Controllers
         [HttpPut]
         public IHttpActionResult Update([FromBody] Category category)
         {
+            if (category == null)
+                return BadRequest("Category can't be null!");
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
             _categoryService.Update(category);
 
             return Ok();
@@ -45,9 +66,18 @@ namespace IShop.Controllers
         [HttpDelete]
         public IHttpActionResult Delete(int id)
         {
-            _categoryService.Delete(id);
+            var category = _categoryService.Get(id);
 
-            return Ok();
+            if (category != null)
+            {
+                _categoryService.Delete(id);
+
+                return Ok();
+            }
+            else
+            {
+                return NotFound();
+            }  
         }
 
         [HttpGet]
@@ -59,6 +89,11 @@ namespace IShop.Controllers
         [HttpGet]
         public IHttpActionResult GetAllProductsByCategory(int id)
         {
+            var category = _productService.Get(id);
+            
+            if (category == null)
+                return NotFound();
+
             var products = _productService.GetAll().Where(x => x.CategoryId == id);
 
             return Ok(products);

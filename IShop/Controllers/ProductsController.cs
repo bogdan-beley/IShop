@@ -23,12 +23,22 @@ namespace IShop.Controllers
         [HttpGet]
         public IHttpActionResult Get(int id)
         {
-            return Ok(_productService.Get(id));
+            var product = _productService.Get(id);
+            if (product == null)
+                return NotFound();
+
+            return Ok(product);
         }
 
         [HttpPost]
         public IHttpActionResult Add([FromBody] Product product)
         {
+            if (product == null)
+                return BadRequest("Product can't be null!");
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
             _productService.Add(product);
 
             return Ok();
@@ -37,6 +47,12 @@ namespace IShop.Controllers
         [HttpPut]
         public IHttpActionResult Update([FromBody] Product product)
         {
+            if (product == null)
+                return BadRequest("Product can't be null!");
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
             _productService.Update(product);
 
             return Ok();
@@ -45,6 +61,10 @@ namespace IShop.Controllers
         [HttpDelete]
         public IHttpActionResult Delete(int id)
         {
+            var product = _productService.Get(id);
+            if (product == null)
+                return NotFound();
+
             _productService.Delete(id);
 
             return Ok();
