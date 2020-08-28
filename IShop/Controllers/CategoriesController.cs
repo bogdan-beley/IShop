@@ -1,7 +1,9 @@
 ﻿using IShop.BusinessLogic.Services;
 using IShop.Domain.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -116,7 +118,6 @@ namespace IShop.Controllers
 
         [Route("count")]
         [HttpGet]
-
         public IHttpActionResult CountOfProducts()
         {
             var categories = _categoryService.GetAll();
@@ -130,6 +131,14 @@ namespace IShop.Controllers
             }
 
             return Ok(countOfProducts);
+        }
+
+        [HttpGet]
+        public IHttpActionResult GetAllCategoriesFromFileTest()
+        {
+            var data = File.ReadAllText(@"C:\Users\bogda\Documents\Projects\IShop\IShop.BusinessLogic\Data\Categories2.txt");
+
+            return Ok(JsonConvert.DeserializeObject<List<Category>>(data));
         }
     }
 }
