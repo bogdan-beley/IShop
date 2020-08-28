@@ -1,5 +1,6 @@
 ﻿using IShop.BusinessLogic.Services;
 using IShop.Domain.Models;
+using IShop.Filters;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -39,13 +40,14 @@ namespace IShop.Controllers
         }
 
         [HttpPost]
+        [ModelValidationFilter]
         public IHttpActionResult Add([FromBody] Category category)
         {
             if (category == null)
                 return BadRequest("Category can't be null!");
 
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+            //if (!ModelState.IsValid)
+                //return BadRequest(ModelState);
             
             _categoryService.Add(category);
             
